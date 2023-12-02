@@ -1,6 +1,7 @@
 // Import necessary dependencies
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+import UserTable from "./pages/UserTable";
 function UserList() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -10,13 +11,12 @@ function UserList() {
           "https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json"
         );
         setUsers(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
     fetchData();
   }, []);
-  return <></>;
+  return <UserTable users={users} />;
 }
 export default UserList;
