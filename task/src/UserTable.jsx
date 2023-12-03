@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserEdit from "./UserEdit";
 function UserTable({
   currentUsers,
@@ -7,10 +7,12 @@ function UserTable({
   handleDelete,
   editingUser,
   setEditingUser,
+  selectedUsers,
+  setSelectedUsers,
 }) {
-  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectedUsersLocal, setSelectedUsersLocal] = useState([]);
   const handleRowClick = (id) => {
-    setSelectedUsers((prevSelectedUsers) => {
+    setSelectedUsersLocal((prevSelectedUsers) => {
       if (prevSelectedUsers.includes(id)) {
         return prevSelectedUsers.filter((userId) => userId !== id);
       } else {
@@ -19,14 +21,14 @@ function UserTable({
     });
   };
   const handleSelectAll = () =>
-    setSelectedUsers((prevSelectedUsers) =>
+    setSelectedUsersLocal((prevSelectedUsers) =>
       prevSelectedUsers.length < currentUsers.length
         ? currentUsers.map((user) => user.id)
         : []
     );
-  const handleAction = () => {
-    console.log("Selected Users:", selectedUsers);
-  };
+  useEffect(() => {
+    setSelectedUsers(selectedUsersLocal);
+  }, [selectedUsersLocal, setSelectedUsers]);
   return (
     <div className="flex flex-col m-5">
       <div className="-m-1.5 overflow-x-auto">
@@ -79,7 +81,7 @@ function UserTable({
                     key={user.id}
                     className="hover:bg-gray-100 "
                     onClick={() => handleRowClick(user.id)}>
-                    <td className="py-3 ps-4">
+                    <td className=" py-4 ps-4">
                       <div className="flex items-center h-5">
                         <input
                           id="hs-table-checkbox-1"
@@ -95,16 +97,16 @@ function UserTable({
                         </label>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                    <td className="px-6  whitespace-nowrap text-sm font-medium text-gray-800">
                       {user.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                    <td className="px-6  whitespace-nowrap text-sm font-medium text-gray-800">
                       {user.email}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                    <td className="px-6  whitespace-nowrap text-sm font-medium text-gray-800 ">
                       {user.role}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 ">
+                    <td className="px-6  whitespace-nowrap text-sm font-medium text-gray-800 ">
                       {editingUser && editingUser.id === user.id ? (
                         <UserEdit
                           user={editingUser}
