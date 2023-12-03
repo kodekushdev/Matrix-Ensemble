@@ -1,5 +1,5 @@
+import { useState } from "react";
 import UserEdit from "./UserEdit";
-
 function UserTable({
   currentUsers,
   handleEdit,
@@ -8,6 +8,25 @@ function UserTable({
   editingUser,
   setEditingUser,
 }) {
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const handleRowClick = (id) => {
+    setSelectedUsers((prevSelectedUsers) => {
+      if (prevSelectedUsers.includes(id)) {
+        return prevSelectedUsers.filter((userId) => userId !== id);
+      } else {
+        return [...prevSelectedUsers, id];
+      }
+    });
+  };
+  const handleSelectAll = () =>
+    setSelectedUsers((prevSelectedUsers) =>
+      prevSelectedUsers.length < currentUsers.length
+        ? currentUsers.map((user) => user.id)
+        : []
+    );
+  const handleAction = () => {
+    console.log("Selected Users:", selectedUsers);
+  };
   return (
     <div className="flex flex-col m-5">
       <div className="-m-1.5 overflow-x-auto">
@@ -22,6 +41,8 @@ function UserTable({
                         id="hs-table-checkbox-all"
                         type="checkbox"
                         className="border-gray-200 rounded text-blue-600 focus:ring-blue-500"
+                        checked={selectedUsers.length === currentUsers.length}
+                        onChange={handleSelectAll}
                       />
                       <label
                         htmlFor="hs-table-checkbox-all"
@@ -54,13 +75,18 @@ function UserTable({
               </thead>
               <tbody className="divide-y divide-gray-200 ">
                 {currentUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-100">
+                  <tr
+                    key={user.id}
+                    className="hover:bg-gray-100 "
+                    onClick={() => handleRowClick(user.id)}>
                     <td className="py-3 ps-4">
                       <div className="flex items-center h-5">
                         <input
                           id="hs-table-checkbox-1"
                           type="checkbox"
                           className="border-gray-200 rounded text-blue-600 focus:ring-blue-500 "
+                          checked={selectedUsers.includes(user.id)}
+                          onChange={() => {}}
                         />
                         <label
                           htmlFor="hs-table-checkbox-1"

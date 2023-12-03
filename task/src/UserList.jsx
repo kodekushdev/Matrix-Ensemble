@@ -49,7 +49,6 @@ function UserList() {
   return (
     <>
       <SearchBar
-        filteredUsers={filteredUsers}
         setCurrentPage={setCurrentPage}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
