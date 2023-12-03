@@ -16,13 +16,14 @@ function UserList() {
     user.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const [editingUser, setEditingUser] = useState(null);
-  const handleSaveEdit = (editedUser) => {
-    setUsers((prevUsers) =>
-      prevUsers.map((user) => (user.id === editedUser.id ? editedUser : user))
-    );
-    setEditingUser(null);
+  const handleEdit = (user) => {
+    setEditingUser(user);
   };
-  const handleCancelEdit = () => {
+  const handleUpdate = (updatedUser) => {
+    const updatedUsers = users.map((user) =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+    setUsers(updatedUsers);
     setEditingUser(null);
   };
   const handleDelete = (userId) => {
@@ -55,8 +56,11 @@ function UserList() {
       />
       <UserTable
         currentUsers={currentUsers}
-        handleSaveEdit={handleSaveEdit}
+        handleEdit={handleEdit}
+        handleUpdate={handleUpdate}
         handleDelete={handleDelete}
+        editingUser={editingUser}
+        setEditingUser={setEditingUser}
       />
       <Pagination
         pageNumbers={pageNumbers}
