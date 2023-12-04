@@ -4,9 +4,7 @@ Welcome to the Admin Dashboard project! This project provides an interface for a
 
 ## Demo
 
-![Dashboard Demo](./images/image.png)
-(./images/image-1.png)
-(./images/image-2.png)
+Check out the live demo: [Admin Dashboard Demo](https://matrix-ensemble.vercel.app)
 
 ## Features
 
